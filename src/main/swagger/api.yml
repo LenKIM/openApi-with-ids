@@ -1,0 +1,53 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: SnowFlake
+  license:
+    name: MIT
+paths:
+  /getId:
+    get:
+      summary: get Next SnowFlake Id
+      operationId: snowflake
+      tags:
+        - snowflake
+      parameters:
+        - name: nodeId
+          in: query
+          description: What node id is
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: get Success Id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ids"
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Ids:
+      type: "object"
+      properties:
+        value:
+          type: "integer"
+          format: "int64"
+        node:
+          type: "integer"
+          format: "int32"
+    Error:
+      required:
+        - value
+      properties:
+        value:
+          type: integer
+          format: int64

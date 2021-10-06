@@ -1,0 +1,76 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+
+    id "org.openapi.generator" version "5.1.1"
+
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //fixed for swagger
+    compileOnly 'io.swagger:swagger-annotations:1.6.1'
+    compileOnly 'jakarta.validation:jakarta.validation-api:2.0.2'
+    compileOnly 'org.openapitools:jackson-databind-nullable:0.1.0'
+
+    implementation 'com.google.code.gson:gson'
+    implementation 'com.google.guava:guava:29.0-jre'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+openApiValidate {
+    inputSpec="$projectDir/src/main/swagger/api.yml"
+    recommend=true
+}
+
+openApiGenerate {
+    inputSpec="$projectDir/src/main/swagger/api.yml"
+    generatorName = "spring"
+    configFile= "$projectDir/src/main/swagger/config.json"
+    outputDir= "$projectDir/src/main/swagger/.generated"
+}
+
+
+tasks.openApiGenerate.dependsOn tasks.openApiValidate
+compileJava.dependsOn tasks.openApiGenerate
+
+sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/src/main/java"
+sourceSets.main.resources.srcDir "${openApiGenerate.outputDir.get()}/src/main/resources"
+

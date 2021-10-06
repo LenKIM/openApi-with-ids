@@ -1,0 +1,20 @@
+{
+  "library": "spring-boot",
+  "interfaceOnly": true,
+  "basePackage": "com.example.idswithsnowflake.apis",
+  "configPackage": "com.example.idswithsnowflake.api.config",
+  "modelPackage": "com.example.idswithsnowflake.apis",
+  "apiPackage": "com.example.idswithsnowflake.apis",
+  "invokerPackage": "com.example.idswithsnowflake.apis",
+  "useTags": true,
+  "skipDefaultInterface": true,
+  "dateLibrary": "java8",
+  "useBeanValidation": true,
+  "serializableModel": true,
+  "implicitHeaders": false,
+  "swaggerDocketConfig": false,
+  "hideGenerationTimestamp": true,
+  "useSpringfox": false,
+  "reactive": false,
+  "openApiNullable": false
+}
